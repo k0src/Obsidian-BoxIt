@@ -2,10 +2,7 @@
 	display: block;
 	width: 100%;
 	box-sizing: border-box;
-	border-left: 4px solid var(--color-accent);
 	border-radius: var(--radius-s);
-	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
-	background-color: var(--color-base-10);
 	clear: both;
 	overflow: hidden;
 }
@@ -28,4 +25,32 @@
 
 .boxit-marker {
 	display: none;
+}
+
+.boxit-container.boxit {
+	border-left: 4px solid var(--color-accent);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+}
+
+.boxit-container.boxit-fancy {
+	border: 2px solid transparent;
+	background: linear-gradient(var(--color-base-10), var(--color-base-10))
+			padding-box,
+		linear-gradient(45deg, var(--color-accent), var(--color-accent-2))
+			border-box;
+	padding: var(--size-4-3);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.boxit-container.boxit-minimal {
+	border: 1px solid var(--color-base-30);
+	padding: var(--size-4-2);
+	background-color: transparent;
+}
+
+.boxit-container.boxit-highlight {
+	padding: var(--size-4-3);
+	background-color: var(--color-base-10);
+	border: 1px solid var(--color-yellow);
 }
