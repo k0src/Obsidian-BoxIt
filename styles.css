@@ -1,0 +1,31 @@
+.boxit-container {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	border-left: 4px solid var(--color-accent);
+	border-radius: var(--radius-s);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+	clear: both;
+	overflow: hidden;
+}
+
+.boxit-container > :first-child {
+	margin-top: 0;
+}
+
+.boxit-container > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown-reading-view .boxit-container {
+	margin: var(--size-4-1) 0;
+}
+
+.markdown-source-view.mod-cm6 .boxit-container {
+	margin: var(--size-2-1) 0;
+}
+
+.boxit-marker {
+	display: none;
+}

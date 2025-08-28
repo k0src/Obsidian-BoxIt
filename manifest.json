@@ -1,9 +1,9 @@
 {
-	"id": "toggle-dev-tools",
-	"name": "Toggle Developer Tools",
+	"id": "box-it",
+	"name": "BoxIt",
 	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Adds a hotkey to toggle Obsidian developer tools.",
+	"description": "Creates boxes around text.",
 	"author": "k0src",
 	"authorUrl": "https://github.com/k0src",
 	"isDesktopOnly": false

@@ -1,7 +1,7 @@
 {
-	"name": "toggle-dev-tools",
+	"name": "box-it",
 	"version": "0.0.1",
-	"description": "Adds a hotkey to toggle Obsidian developer tools.",
+	"description": "Creates boxes around text.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
