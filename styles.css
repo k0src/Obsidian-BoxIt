@@ -54,3 +54,45 @@
 	background-color: var(--color-base-10);
 	border: 1px solid var(--color-yellow);
 }
+
+.boxit-container.boxit-success {
+	border-left: 4px solid var(--color-green);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+	border-radius: var(--radius-s);
+}
+
+.boxit-container.boxit-warning {
+	border-left: 4px solid var(--color-orange);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+	border-radius: var(--radius-s);
+}
+
+.boxit-container.boxit-error {
+	border-left: 4px solid var(--color-red);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+	border-radius: var(--radius-s);
+}
+
+.boxit-container.boxit-info {
+	border-left: 4px solid var(--color-blue);
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-4);
+	background-color: var(--color-base-10);
+	border-radius: var(--radius-s);
+}
+
+.boxit-container.boxit-glass {
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: var(--radius-m);
+	padding: var(--size-4-3);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark .boxit-container.boxit-glass {
+	background: rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
