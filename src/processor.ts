@@ -1,9 +1,12 @@
 import { Component, MarkdownRenderer } from "obsidian";
+import { CustomStyleParser } from "./customStyles";
+import { DynamicStyleManager } from "./styleManager";
 
 export class BoxItProcessor {
 	constructor(
 		private app: any,
-		private updateLastUsedStyle?: (style: string) => void
+		private updateLastUsedStyle?: (style: string) => void,
+		private styleManager?: DynamicStyleManager
 	) {}
 
 	async processBoxItBlock(
@@ -12,7 +15,6 @@ export class BoxItProcessor {
 		ctx: any,
 		style: string
 	) {
-		// Update last used style if it's not the default
 		if (style !== "boxit" && this.updateLastUsedStyle) {
 			this.updateLastUsedStyle(style);
 		}
@@ -42,5 +44,40 @@ export class BoxItProcessor {
 		return async (source: string, el: HTMLElement, ctx: any) => {
 			await this.processBoxItBlock(source, el, ctx, style);
 		};
+	}
+
+	async processCustomBoxItBlock(
+		source: string,
+		el: HTMLElement,
+		ctx: any,
+		customClasses: string
+	) {
+		const customStyle = CustomStyleParser.createCustomStyle(customClasses);
+		if (this.styleManager) {
+			this.styleManager.addCustomStyle(
+				customStyle.className,
+				customStyle.css
+			);
+		}
+
+		el.empty();
+
+		const boxDiv = el.createEl("div", {
+			cls: `boxit-container ${customStyle.className}`,
+		});
+		const component = new Component();
+
+		try {
+			await MarkdownRenderer.render(
+				this.app,
+				source.trim(),
+				boxDiv,
+				ctx.sourcePath || "",
+				component
+			);
+			component.load();
+		} catch (error) {
+			boxDiv.textContent = source;
+		}
 	}
 }
