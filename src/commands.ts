@@ -1,18 +1,23 @@
 import { Editor, MarkdownView } from "obsidian";
-import { BOXIT_STYLES } from "./styles";
 
 export class BoxItCommands {
 	constructor(
-		private lastUsedStyleCallback: () => string,
-		private updateLastUsedStyle: (style: string) => void
+		private lastUsedUtilityClassesCallback: () => string,
+		private updateLastUsedUtilityClasses: (utilityClasses: string) => void
 	) {}
 
-	boxSelectedText(editor: Editor, style: string) {
+	boxSelectedText(editor: Editor, utilityClasses?: string) {
 		const selection = editor.getSelection();
 		if (!selection) return;
 
-		this.updateLastUsedStyle(style);
-		const boxedContent = `\`\`\`${style}\n${selection}\n\`\`\``;
+		let boxedContent: string;
+		if (utilityClasses && utilityClasses.trim()) {
+			this.updateLastUsedUtilityClasses(utilityClasses);
+			boxedContent = `\`\`\`boxit\n${utilityClasses}\n${selection}\n\`\`\``;
+		} else {
+			boxedContent = `\`\`\`boxit\n${selection}\n\`\`\``;
+		}
+
 		editor.replaceSelection(boxedContent);
 	}
 
@@ -22,29 +27,19 @@ export class BoxItCommands {
 				id: "box-selected-text-default",
 				name: "Box selected text (default)",
 				editorCallback: (editor: Editor, view: MarkdownView) => {
-					this.boxSelectedText(editor, "boxit");
+					this.boxSelectedText(editor);
 				},
 			},
 			{
 				id: "box-selected-text-last-used",
-				name: "Box selected text (last used style)",
+				name: "Box selected text (last used utility classes)",
 				editorCallback: (editor: Editor, view: MarkdownView) => {
-					this.boxSelectedText(editor, this.lastUsedStyleCallback());
+					const lastUsedClasses =
+						this.lastUsedUtilityClassesCallback();
+					this.boxSelectedText(editor, lastUsedClasses);
 				},
 			},
 		];
-
-		BOXIT_STYLES.forEach((style) => {
-			if (style.name !== "boxit") {
-				commands.push({
-					id: `box-selected-text-${style.name}`,
-					name: `Box selected text (${style.displayName})`,
-					editorCallback: (editor: Editor, view: MarkdownView) => {
-						this.boxSelectedText(editor, style.name);
-					},
-				});
-			}
-		});
 
 		return commands;
 	}

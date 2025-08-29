@@ -1,11 +1,10 @@
 import { Plugin } from "obsidian";
-import { BOXIT_STYLES } from "./src/styles";
 import { BoxItProcessor } from "./src/processor";
 import { BoxItCommands } from "./src/commands";
 import { DynamicStyleManager } from "./src/styleManager";
 
 export default class BoxItPlugin extends Plugin {
-	private lastUsedStyle: string = "boxit";
+	private lastUsedUtilityClasses: string = "";
 	private processor: BoxItProcessor;
 	private commands: BoxItCommands;
 	private styleManager: DynamicStyleManager;
@@ -15,26 +14,19 @@ export default class BoxItPlugin extends Plugin {
 
 		this.processor = new BoxItProcessor(
 			this.app,
-			(style: string) => (this.lastUsedStyle = style),
+			(utilityClasses: string) =>
+				(this.lastUsedUtilityClasses = utilityClasses),
 			this.styleManager
 		);
 
 		this.commands = new BoxItCommands(
-			() => this.lastUsedStyle,
-			(style: string) => (this.lastUsedStyle = style)
+			() => this.lastUsedUtilityClasses,
+			(utilityClasses: string) =>
+				(this.lastUsedUtilityClasses = utilityClasses)
 		);
 
 		this.commands.getCommands().forEach((command) => {
 			this.addCommand(command);
-		});
-
-		BOXIT_STYLES.forEach((style) => {
-			if (style.name !== "boxit") {
-				this.registerMarkdownCodeBlockProcessor(
-					style.name,
-					this.processor.createProcessor(style.name)
-				);
-			}
 		});
 
 		this.registerMarkdownCodeBlockProcessor(
@@ -51,6 +43,7 @@ export default class BoxItPlugin extends Plugin {
 				}
 
 				if (customClasses) {
+					this.lastUsedUtilityClasses = customClasses;
 					await this.processor.processCustomBoxItBlock(
 						content,
 						el,
@@ -58,7 +51,6 @@ export default class BoxItPlugin extends Plugin {
 						customClasses
 					);
 				} else {
-					// Use default boxit style
 					await this.processor.processBoxItBlock(
 						content,
 						el,
@@ -71,7 +63,6 @@ export default class BoxItPlugin extends Plugin {
 	}
 
 	private isUtilityClassLine(line: string): boolean {
-		// Check if line contains utility class patterns and no markdown
 		const utilityPatterns = [
 			/\b(bg-|border-|text-|p-|m-|px-|py-|mx-|my-|rounded|shadow|gradient-|blur|opacity-)/,
 			/\b(font-|italic|bold)/,
@@ -87,7 +78,6 @@ export default class BoxItPlugin extends Plugin {
 	}
 
 	onunload() {
-		// Cleanup dynamic styles
 		this.styleManager?.cleanup();
 	}
 }

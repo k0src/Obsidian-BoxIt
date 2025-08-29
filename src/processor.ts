@@ -5,7 +5,7 @@ import { DynamicStyleManager } from "./styleManager";
 export class BoxItProcessor {
 	constructor(
 		private app: any,
-		private updateLastUsedStyle?: (style: string) => void,
+		private updateLastUsedUtilityClasses?: (utilityClasses: string) => void,
 		private styleManager?: DynamicStyleManager
 	) {}
 
@@ -15,10 +15,6 @@ export class BoxItProcessor {
 		ctx: any,
 		style: string
 	) {
-		if (style !== "boxit" && this.updateLastUsedStyle) {
-			this.updateLastUsedStyle(style);
-		}
-
 		el.empty();
 
 		const boxDiv = el.createEl("div", {
@@ -52,6 +48,10 @@ export class BoxItProcessor {
 		ctx: any,
 		customClasses: string
 	) {
+		if (this.updateLastUsedUtilityClasses) {
+			this.updateLastUsedUtilityClasses(customClasses);
+		}
+
 		const customStyle = CustomStyleParser.createCustomStyle(customClasses);
 		if (this.styleManager) {
 			this.styleManager.addCustomStyle(
